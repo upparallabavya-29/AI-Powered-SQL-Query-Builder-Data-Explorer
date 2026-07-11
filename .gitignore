@@ -1,0 +1,32 @@
+# Environments
+.env
+.env.local
+.env.*.local
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+.pytest_cache/
+.pytest/
+
+# Databases
+*.db
+db_files/
+
+# Logs
+*.log
+logs/
+
+# Node
+node_modules/
+dist/
+
+# OS/Editor files
+.DS_Store
+.vscode/
+.idea/

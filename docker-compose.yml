@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: athena_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      # Map host folders to persist databases and file schemas
+      - ./backend/db_files:/workspace/db_files
+      - ./backend/sql_builder.db:/workspace/sql_builder.db
+    environment:
+      - DATABASE_URL=sqlite:////workspace/sql_builder.db
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_API_BASE=${OPENAI_API_BASE}
+      - OPENAI_MODEL=${OPENAI_MODEL}
+    restart: always
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: athena_frontend
+    ports:
+      - "3000:80"
+    environment:
+      - VITE_API_URL=http://localhost:8000/api
+    depends_on:
+      - backend
+    restart: always
