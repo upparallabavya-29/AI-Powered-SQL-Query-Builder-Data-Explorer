@@ -37,9 +37,31 @@ class QueryExecutorService:
             raise ValueError(error_msg)
 
         if not schema.db_path or not os.path.exists(schema.db_path):
-            error_msg = "Database file is missing or has not been initialized for this schema."
-            ExecutionLogRepository.create(db, query_history_id, False, error_msg, 0, 0)
-            raise FileNotFoundError(error_msg)
+            logger.info(f"Database file for schema {schema_id} is missing. Attempting automatic recovery...")
+            from backend.app.services.schema_service import SchemaService, DB_FILES_DIR
+            
+            # Ensure the directory exists
+            os.makedirs(DB_FILES_DIR, exist_ok=True)
+            
+            # Recalculate/normalize db_path for current OS filesystem
+            db_filename = f"schema_{schema.id}.db"
+            db_path = os.path.join(DB_FILES_DIR, db_filename)
+            schema.db_path = db_path
+            db.commit()
+            db.refresh(schema)
+            
+            try:
+                if schema.schema_type == "sql":
+                    ddl_sql = schema.raw_content
+                else:
+                    ddl_sql = SchemaService.generate_ddl_from_parsed(schema.parsed_tables)
+                
+                SchemaService.initialize_sqlite_database(db_path, ddl_sql, schema.parsed_tables)
+                logger.info(f"Database file recovered successfully at {db_path} for schema {schema_id}")
+            except Exception as recover_err:
+                error_msg = f"Database file is missing and automatic recovery failed: {str(recover_err)}"
+                ExecutionLogRepository.create(db, query_history_id, False, error_msg, 0, 0)
+                raise FileNotFoundError(error_msg)
 
         # 2. Run AST validation
         is_valid, clean_sql, validation_errors = validate_sql_query(sql, dialect="sqlite")

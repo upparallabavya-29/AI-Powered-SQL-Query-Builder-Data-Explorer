@@ -13,6 +13,10 @@ if not DATABASE_URL:
     else:
         DATABASE_URL = "sqlite:///./sql_builder.db"
 
+# Replace postgres:// with postgresql:// for SQLAlchemy compatibility
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
 # Connection parameters for different database systems
 connect_args = {}
 if DATABASE_URL.startswith("sqlite"):
