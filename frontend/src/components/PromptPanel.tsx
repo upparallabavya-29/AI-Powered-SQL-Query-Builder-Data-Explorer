@@ -25,15 +25,13 @@ export const PromptPanel: React.FC = () => {
     prompt,
     setPrompt,
     generatedSql,
-    setGeneratedSql,
     loadingStates,
     errors,
     selectedSchemaId,
     generateSql,
     validateSql,
     executeSql,
-    saveQuery,
-    clearSqlErrors
+    saveQuery
   } = useAppStore();
 
   const [validationSuccess, setValidationSuccess] = useState<string | null>(null);
@@ -204,7 +202,7 @@ export const PromptPanel: React.FC = () => {
               Query Validation Failure
             </Typography>
             {errors.sql.map((err, i) => (
-              <Typography key={i} variant="caption" display="block">
+              <Typography key={i} variant="caption" sx={{ display: "block" }}>
                 • {err}
               </Typography>
             ))}

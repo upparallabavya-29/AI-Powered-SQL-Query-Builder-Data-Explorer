@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Layout } from "./layouts/Layout";
 import { useAppStore } from "./store/useAppStore";
 import { Box, Typography } from "@mui/material";
