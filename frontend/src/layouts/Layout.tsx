@@ -40,8 +40,7 @@ export const Layout: React.FC = () => {
         >
           {/* Left Panel: Schema Tree (25% width) */}
           <Grid
-            xs={12}
-            md={3}
+            size={{ xs: 12, md: 3 }}
             sx={{
               height: "100%",
               display: "flex",
@@ -54,8 +53,7 @@ export const Layout: React.FC = () => {
 
           {/* Center Panel: Prompt + Editor + Results (50% width) */}
           <Grid
-            xs={12}
-            md={6}
+            size={{ xs: 12, md: 6 }}
             sx={{
               height: "100%",
               display: "flex",
@@ -83,8 +81,7 @@ export const Layout: React.FC = () => {
 
           {/* Right Panel: History/Saved Queries (25% width) */}
           <Grid
-            xs={12}
-            md={3}
+            size={{ xs: 12, md: 3 }}
             sx={{
               height: "100%",
               display: "flex",
