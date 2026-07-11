@@ -14,8 +14,15 @@ from backend.app.utils.seeder import seed_sample_database
 
 logger = logging.getLogger(__name__)
 
-DB_FILES_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "db_files"))
-os.makedirs(DB_FILES_DIR, exist_ok=True)
+if os.getenv("VERCEL") or os.getenv("VERCEL_ENV"):
+    DB_FILES_DIR = "/tmp/db_files"
+else:
+    DB_FILES_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "db_files"))
+
+try:
+    os.makedirs(DB_FILES_DIR, exist_ok=True)
+except Exception as e:
+    logging.getLogger(__name__).warning(f"Could not create DB_FILES_DIR {DB_FILES_DIR} at startup: {e}")
 
 class SchemaService:
     @staticmethod

@@ -6,7 +6,12 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.pool import StaticPool
 
 # Retrieve the database URL, defaulting to local SQLite
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./sql_builder.db")
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    if os.getenv("VERCEL") or os.getenv("VERCEL_ENV"):
+        DATABASE_URL = "sqlite:////tmp/sql_builder.db"
+    else:
+        DATABASE_URL = "sqlite:///./sql_builder.db"
 
 # Connection parameters for different database systems
 connect_args = {}
