@@ -5,7 +5,6 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputLabel,
   Button,
   Dialog,
   DialogTitle,
@@ -172,12 +171,14 @@ export const SchemaSidebar: React.FC = () => {
             borderRadius: "8px"
           }
         }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon size="small" sx={{ color: "text.secondary" }} />
-            </InputAdornment>
-          )
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon fontSize="small" sx={{ color: "text.secondary" }} />
+              </InputAdornment>
+            )
+          }
         }}
       />
 
@@ -320,8 +321,10 @@ export const SchemaSidebar: React.FC = () => {
             value={schemaContent}
             onChange={(e) => setSchemaContent(e.target.value)}
             disabled={uploading}
-            InputProps={{
-              sx: { fontFamily: "var(--font-mono)", fontSize: "12px" }
+            slotProps={{
+              input: {
+                sx: { fontFamily: "var(--font-mono)", fontSize: "12px" }
+              }
             }}
           />
         </DialogContent>

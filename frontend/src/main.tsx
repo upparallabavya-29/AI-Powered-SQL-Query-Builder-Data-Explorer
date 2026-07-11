@@ -66,20 +66,20 @@ const darkTheme = createTheme({
   components: {
     MuiButton: {
       styleOverrides: {
-        root: {
+        root: ({ ownerState }) => ({
           borderRadius: 8,
           padding: "8px 16px",
-          transition: "all 0.2s ease-in-out"
-        },
-        containedPrimary: {
-          background: "linear-gradient(135deg, #6366f1 0%, #a855f7 100%)",
-          color: "#ffffff",
-          boxShadow: "0 4px 14px 0 rgba(99, 102, 241, 0.3)",
-          "&:hover": {
-            filter: "brightness(1.1)",
-            boxShadow: "0 6px 20px 0 rgba(99, 102, 241, 0.4)"
-          }
-        }
+          transition: "all 0.2s ease-in-out",
+          ...(ownerState.variant === "contained" && ownerState.color === "primary" && {
+            background: "linear-gradient(135deg, #6366f1 0%, #a855f7 100%)",
+            color: "#ffffff",
+            boxShadow: "0 4px 14px 0 rgba(99, 102, 241, 0.3)",
+            "&:hover": {
+              filter: "brightness(1.1)",
+              boxShadow: "0 6px 20px 0 rgba(99, 102, 241, 0.4)"
+            }
+          })
+        })
       }
     },
     MuiCard: {

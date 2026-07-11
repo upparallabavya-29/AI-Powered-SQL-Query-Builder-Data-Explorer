@@ -10,7 +10,6 @@ import {
   Card,
   CardContent,
   Tooltip,
-  Divider,
   Button
 } from "@mui/material";
 import HistoryIcon from "@mui/icons-material/History";
@@ -27,7 +26,6 @@ export const QueryHistorySidebar: React.FC = () => {
   const {
     history,
     savedQueries,
-    selectedSchemaId,
     setPrompt,
     setGeneratedSql,
     setQueryHistoryId,
@@ -225,7 +223,7 @@ export const QueryHistorySidebar: React.FC = () => {
 
                         {/* Prompt if available */}
                         {item.prompt && (
-                          <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 1, fontStyle: "italic" }}>
+                          <Typography variant="caption" color="text.secondary" sx={{ display: "block", mb: 1, fontStyle: "italic" }}>
                             "{item.prompt}"
                           </Typography>
                         )}
