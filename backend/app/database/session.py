@@ -6,7 +6,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.pool import StaticPool
 
 # Retrieve the database URL, defaulting to local SQLite
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
 is_serverless = (
     os.getenv("VERCEL")
     or os.getenv("VERCEL_ENV")
@@ -19,7 +19,7 @@ if not DATABASE_URL:
         DATABASE_URL = "sqlite:////tmp/sql_builder.db"
     else:
         DATABASE_URL = "sqlite:///./sql_builder.db"
-elif is_serverless and DATABASE_URL.startswith("sqlite"):
+elif is_serverless and DATABASE_URL.lower().startswith("sqlite"):
     DATABASE_URL = "sqlite:////tmp/sql_builder.db"
 
 # Replace postgres:// with postgresql:// for SQLAlchemy compatibility
