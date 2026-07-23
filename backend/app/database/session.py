@@ -8,7 +8,12 @@ from sqlalchemy.pool import StaticPool
 # Retrieve the database URL, defaulting to local SQLite
 DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
-    if os.getenv("VERCEL") or os.getenv("VERCEL_ENV"):
+    if (
+        os.getenv("VERCEL")
+        or os.getenv("VERCEL_ENV")
+        or os.getenv("AWS_LAMBDA_FUNCTION_NAME")
+        or os.getenv("LAMBDA_TASK_ROOT")
+    ):
         DATABASE_URL = "sqlite:////tmp/sql_builder.db"
     else:
         DATABASE_URL = "sqlite:///./sql_builder.db"

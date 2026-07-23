@@ -14,7 +14,12 @@ from backend.app.utils.seeder import seed_sample_database
 
 logger = logging.getLogger(__name__)
 
-if os.getenv("VERCEL") or os.getenv("VERCEL_ENV"):
+if (
+    os.getenv("VERCEL")
+    or os.getenv("VERCEL_ENV")
+    or os.getenv("AWS_LAMBDA_FUNCTION_NAME")
+    or os.getenv("LAMBDA_TASK_ROOT")
+):
     DB_FILES_DIR = "/tmp/db_files"
 else:
     DB_FILES_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "db_files"))
